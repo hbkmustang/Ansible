@@ -1,0 +1,32 @@
+---
+- hosts: "redhat_servers"
+  vars:
+    nginx_user: nginx
+  become:
+    true
+  become_method:
+    sudo
+  become_user:
+    root
+  remote_user:
+    ansible
+  roles:
+    - { role: epel, tags: install }
+    - { role: nginx, tags: install }
+    - { role: control, tags: control }
+
+- hosts: "debian_servers"
+  vars:
+    nginx_user: www-data
+  become:
+    true
+  become_method:
+    sudo
+  become_user:
+    root
+  remote_user:
+    ansible
+  roles:
+    - { role: nginx, tags: install }
+    - { role: control, tags: control }
+

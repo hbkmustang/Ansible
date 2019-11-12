@@ -1,0 +1,82 @@
+---
+- hosts: "redhat_servers"
+  become:
+    true
+  become_method:
+    sudo
+  become_user:
+    root
+  remote_user:
+    ansible
+  gather_facts: no   
+ 
+  tasks: 
+  - name: Installing packages on Redhat Servers
+    tags: regulary
+    yum:
+      name: "{{ item }}"
+      state: present
+    loop:
+      - zip
+      - unzip
+      - gzip
+      - nano
+
+  - name: Installing packages on Redhat Servers from vars
+    tags: packages_install
+    yum:
+      name: "{{ item }}"
+      state: present
+    loop: "{{ package_install.split(',') }}"
+
+  - name: Removing packages on Redhat Servers
+    tags: regulary
+    yum:
+      name: "{{ item }}"
+      state: removed
+    loop:
+      - unzip
+      - nano
+
+  - name: Removing packages on Redhat Servers from vars
+    tags: packages_delete
+    yum:
+      name: "{{ item }}"
+      state: removed
+    loop: "{{ package_remove.split(',') }}"
+  
+
+- hosts: "debian_servers"
+  become:
+    true
+  become_method:
+    sudo
+  become_user:
+    root
+  remote_user:
+    ansible
+  gather_facts: no 
+  
+  tasks: 
+  - name: Installing packages on Debian Servers
+    tags: regulary
+    apt:
+      name: "{{ item }}"
+      state: present
+      force_apt_get: yes
+    loop:
+      - zip
+      - unzip
+      - gzip
+      - nano
+
+  - name: Removing packages on Debian Servers
+    tags: regulary
+    apt:
+      name: "{{ item }}"
+      state: absent
+      force_apt_get: yes
+    loop:
+      - unzip
+      - nano
+ 

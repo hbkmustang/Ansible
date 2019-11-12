@@ -1,0 +1,24 @@
+---
+- name: Start nginx
+  systemd:
+    name: nginx
+    state: started
+  tags: start
+
+- name: Stop nginx
+  systemd:
+    name: nginx
+    state: stopped
+  tags: stop
+
+- name: Enable nginx for autostartup
+  systemd:
+    name: nginx
+    enabled: yes
+  tags: enable
+
+- name: Disable nginx for autostartup
+  systemd:
+    name: nginx
+    enabled: no
+  tags: disable

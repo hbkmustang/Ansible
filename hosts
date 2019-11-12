@@ -1,0 +1,6 @@
+[redhat_servers]
+centoslocal ansible_connection=ssh ansible_ssh_user=ansible
+
+[debian_servers]
+debianlocal ansible_connection=ssh ansible_ssh_user=ansible
+
